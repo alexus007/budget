@@ -1,0 +1,16 @@
+<?php
+return [
+    'components' => [
+        'db' => [
+            'dsn' => 'mysql:host=localhost;dbname=dbname',
+            'username' => 'root',
+            'password' => '123',
+        ],
+        'mailer' => [
+            'useFileTransport' => true,
+        ],
+        'cache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
+    ],
+];
