@@ -1,11 +1,11 @@
 <?php
 namespace app\modules\user\controllers;
 
-use app\modules\user\models\EmailConfirmForm;
-use app\modules\user\models\LoginForm;
-use app\modules\user\models\PasswordResetRequestForm;
-use app\modules\user\models\PasswordResetForm;
-use app\modules\user\models\SignupForm;
+use app\models\EmailConfirmForm;
+use app\models\LoginForm;
+use app\models\PasswordResetRequestForm;
+use app\models\ResetPasswordForm;
+use app\models\SignupForm;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -61,7 +61,7 @@ class DefaultController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->goHome();
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -129,7 +129,7 @@ class DefaultController extends Controller
     public function actionPasswordReset($token)
     {
         try {
-            $model = new PasswordResetForm($token);
+            $model = new ResetPasswordForm($token);
         } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }

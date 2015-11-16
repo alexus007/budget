@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 16.11.15
- * Time: 1:47
- */
-
-namespace app\modules\user\models;
+namespace app\models;
 
 
 use yii\base\InvalidParamException;

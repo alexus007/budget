@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ad1fa2e83bcf6a4a106773a85b6f25cc",
-    "content-hash": "d6c687bd163e34fa3ecf6f7b3f1b16f4",
+    "hash": "76a6c8d37b67bd45b6833ee32cb0f2b7",
+    "content-hash": "9edc1faaf5f0d4d659bc3424b8fe213e",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -55,6 +55,43 @@
                 "responsive",
                 "web"
             ]
+        },
+        {
+            "name": "bower-asset/font-awesome",
+            "version": "v4.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FortAwesome/Font-Awesome.git",
+                "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FortAwesome/Font-Awesome/zipball/e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+                "reference": "e554555d73a44e0a7d11b0361ad7a5325a5f551c",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "less/font-awesome.less",
+                    "scss/font-awesome.scss"
+                ],
+                "bower-asset-ignore": [
+                    "*/.*",
+                    "*.json",
+                    "src",
+                    "*.yml",
+                    "Gemfile",
+                    "Gemfile.lock",
+                    "*.md"
+                ]
+            },
+            "license": [
+                "OFL-1.1",
+                "MIT",
+                "CC-BY-3.0"
+            ],
+            "description": "Font Awesome"
         },
         {
             "name": "bower-asset/jquery",

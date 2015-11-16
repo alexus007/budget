@@ -4,8 +4,6 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\components\widgets\Alert;
@@ -27,49 +25,16 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-    NavBar::begin([
-        'brandLabel' => 'My Company',
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => array_filter([
-            ['label' => 'Home', 'url' => ['/main/default/index']],
-            ['label' => 'Contact', 'url' => ['/main/contact/index']],
-            Yii::$app->user->isGuest ?
-                ['label' => 'Sign Up', 'url' => ['/user/default/signup']] :
-                false,
-            Yii::$app->user->isGuest ?
-                ['label' => 'Login', 'url' => ['/user/default/login']] :
-                [
-                    'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    'url' => ['/user/default/logout'],
-                    'linkOptions' => ['data-method' => 'post']
-                ],
-        ]),
-    ]);
-    NavBar::end();
+        echo $this->render('tmpl/main_navbar',[]);
     ?>
 
     <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
     </div>
 </div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
-    </div>
-</footer>
+    <?=$this->render('tmpl/footer',[]);?>
 
 <?php $this->endBody() ?>
 </body>

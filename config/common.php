@@ -7,12 +7,11 @@ $params = ArrayHelper::merge(
 );
 
 return [
+    'name'  => 'Семейный бюджет',
+    'language' => 'ru-RU',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
-        'main' => [
-            'class' => 'app\modules\main\Module',
-        ],
         'user' => [
             'class' => 'app\modules\user\Module',
         ],
@@ -30,10 +29,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                '' => 'main/default/index',
-                'contact' => 'main/contact/index',
-                'budget' => 'budget/default/index',
-                '<_a:error>' => 'main/default/<_a>',
+                '' => 'budget/budget/index',
+                '<_c:(budget)>/<_a:(create|view|update|delete)>' => 'budget/budget/<_a>',
+                '<_a:error>' => 'budget/budget/<_a>',
                 '<_a:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/default/<_a>',
 
                 '<_m:[\w\-]+>/<_c:[\w\-]+>/<id:\d+>' => '<_m>/<_c>/view',
@@ -50,6 +48,18 @@ return [
         ],
         'log' => [
             'class' => 'yii\log\Dispatcher',
+        ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'forceTranslation' => true,
+                ],
+                'menu' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'forceTranslation' => true,
+                ],
+            ],
         ],
     ],
     'params' => $params,

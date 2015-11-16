@@ -6,12 +6,12 @@ $config = [
     'bootstrap' => ['log'],
     'components' => [
         'user' => [
-            'identityClass' => 'app\modules\user\models\User',
+            'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
             'loginUrl' => ['user/default/login'],
         ],
         'errorHandler' => [
-            'errorAction' => 'main/default/error',
+            'errorAction' => 'budget/budget/error',
         ],
         'request' => [
             'cookieValidationKey' => '',

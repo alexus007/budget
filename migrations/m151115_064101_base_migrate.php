@@ -47,12 +47,22 @@ class m151115_064101_base_migrate extends Migration
       $this->createTable('{{%currency}}', [
           'id' => $this->primaryKey(),
           'name' => $this->string()->notNull(),
+          'code' => $this->integer()->notNull(),
+          'chCode' => $this->string()->notNull(),
           'sign' => $this->string()->notNull(),
           'active' => $this->boolean()->notNull()->defaultValue(true),
       ], $tableOptions);
 
-      $this->insert('{{%currency}}', ['name'=>'Рубль', 'sign'=>'₽']);
-      $this->insert('{{%currency}}', ['name'=>'Доллар', 'sign'=>'$']);
+      $this->createTable('{{%currency_curs}}', [
+          'id' => $this->primaryKey(),
+          'currency_id' => $this->integer()->notNull(),
+          'nom' => $this->integer()->notNull(),
+          'curs' => $this->float()->notNull(),
+          'rate' => $this->float()->notNull(),
+          'date' => $this->dateTime()->notNull(),
+      ], $tableOptions);
+
+      $this->addForeignKey('fk_currency_curs_currency', 'currency_curs', 'currency_id', 'currency', 'id');
 
       $this->createTable('{{%budget}}', [
           'id' => $this->primaryKey(),
@@ -82,6 +92,7 @@ class m151115_064101_base_migrate extends Migration
           'type_budget_item_id' => $this->integer()->notNull(),
           'name' => $this->string()->notNull(),
           'ammount' => $this->float()->notNull(),
+          'date' => $this->dateTime()->notNull(),
           'active' => $this->boolean()->notNull()->defaultValue(true),
       ], $tableOptions);
 
@@ -114,6 +125,7 @@ class m151115_064101_base_migrate extends Migration
       $this->dropIndex('idx_user_status', '{{%user}}');
       $this->dropForeignKey('fk_budget_user', '{{%budget}}');
       $this->dropForeignKey('fk_budget_currency', '{{%budget}}');
+      $this->dropForeignKey('fk_currency_curs_currency', '{{%currency_curs}}');
       $this->dropForeignKey('fk_budget_item_currency', '{{%budget_item}}');
       $this->dropForeignKey('fk_budget_item_patent', '{{%budget_item}}');
       $this->dropForeignKey('fk_budget_item_type_budget_item', '{{%budget_item}}');
@@ -124,6 +136,7 @@ class m151115_064101_base_migrate extends Migration
 
       $this->dropTable('{{%user}}');
       $this->dropTable('{{%currency}}');
+      $this->dropTable('{{%currency_curs}}');
       $this->dropTable('{{%budget}}');
       $this->dropTable('{{%budget_item}}');
       $this->dropTable('{{%type_budget_item}}');

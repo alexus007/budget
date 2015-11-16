@@ -4,29 +4,39 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \app\modules\user\models\LoginForm */
+/* @var $model \app\models\LoginForm */
 
-$this->title = 'Login';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Семейный бюджет';
 ?>
-<div class="user-default-login">
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <h1><?=$this->title;?></h1>
+        <p>- это<br>
+        <ul>
+            <li>Ведение бюджета в различных валютах ($ + Рубли). Форма заведения затрат и поступлений в бюджет (включая дату затраты/поступления).</li>
+            <li>Возможность изменения статей бюджета (добавление, изменение статьи бюджета). Например: статьи бюджета – расходы на автомобиль, расходы на питание, расходы на досуг, доход – заработная плата.</li>
+            <li>Возможность получения сводного отчета за заданный период времени. В разрезе – сколько расходов/доходов и по каким статьям было за заданный период времени, вывод суммарных дохода и расхода за этот период времени.</li>
+        </ul>
+        </p>
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                    <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                    <?= $form->field($model, 'username') ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-            <?= $form->field($model, 'username') ?>
-            <?= $form->field($model, 'password')->passwordInput() ?>
-            <?= $form->field($model, 'rememberMe')->checkbox() ?>
-            <div style="color:#999;margin:1em 0">
-                If you forgot your password you can <?= Html::a('reset it', ['password-reset-request']) ?>.
+                    <div class="form-group">
+                        <?= Html::submitButton('Вход', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
+                    </div>
+                    <div>
+                        <?= Html::a('Забыли пароль?', ['password-reset-request']) ?>
+                        <span>|</span>
+                        <?= Html::a('Регистрация', ['signup']) ?>
+                    </div>
+                    <?php ActiveForm::end(); ?>
             </div>
-            <div class="form-group">
-                <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
+        </div>
         </div>
     </div>
-</div>
+
