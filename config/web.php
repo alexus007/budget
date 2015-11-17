@@ -1,7 +1,7 @@
 <?php
 $config = [
     'id' => 'basic',
-    'defaultRoute' => 'main/default/index',
+    'defaultRoute' => 'budget/budget/index',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [

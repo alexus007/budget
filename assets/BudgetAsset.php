@@ -16,9 +16,10 @@ class BudgetAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
-        'css/site.css',
+        YII_ENV_DEV ? 'css/site.css' : 'css/site.min.css'
     ];
     public $js = [
+        YII_ENV_DEV ? 'js/dist/build.js' : 'js/dist/build.min.js'
     ];
     public $depends = [
         'app\assets\FontAwesomeAsset',

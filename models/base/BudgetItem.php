@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $patent_id
+ * @property integer $user_id
  * @property integer $currency_id
  * @property integer $type_budget_item_id
  * @property string $name
@@ -21,6 +22,7 @@ use Yii;
  * @property \app\models\BudgetItem $patent
  * @property \app\models\BudgetItem[] $budgetItems
  * @property \app\models\TypeBudgetItem $typeBudgetItem
+ * @property \app\models\User $user
  */
 class BudgetItem extends \yii\db\ActiveRecord
 {
@@ -41,8 +43,8 @@ class BudgetItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['patent_id', 'currency_id', 'type_budget_item_id', 'name', 'ammount', 'date'], 'required'],
-            [['patent_id', 'currency_id', 'type_budget_item_id', 'active'], 'integer'],
+            [['patent_id', 'user_id', 'currency_id', 'type_budget_item_id', 'name', 'ammount', 'date'], 'required'],
+            [['patent_id', 'user_id', 'currency_id', 'type_budget_item_id', 'active'], 'integer'],
             [['ammount'], 'number'],
             [['date'], 'safe'],
             [['name'], 'string', 'max' => 255]
@@ -57,6 +59,7 @@ class BudgetItem extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'patent_id' => Yii::t('app', 'Patent ID'),
+            'user_id' => Yii::t('app', 'User ID'),
             'currency_id' => Yii::t('app', 'Currency ID'),
             'type_budget_item_id' => Yii::t('app', 'Type Budget Item ID'),
             'name' => Yii::t('app', 'Name'),
@@ -104,6 +107,14 @@ class BudgetItem extends \yii\db\ActiveRecord
     public function getTypeBudgetItem()
     {
         return $this->hasOne(\app\models\TypeBudgetItem::className(), ['id' => 'type_budget_item_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(\app\models\User::className(), ['id' => 'user_id']);
     }
 
 

@@ -145,14 +145,7 @@ class CbrfController extends Controller
         {
             if($currency->code == 643)
                 continue;
-            /** @var \app\models\Currency $currency */
-            $currencyModel = CurrencyCur::find()
-                ->with('currency')
-                ->where('date < :now', [':now' => date('Y-m-d')])
-                ->orderBy(['date' => SORT_DESC])
-                ->limit(1)
-                ->one();
-            if(!$currencyModel) {
+
                 if(($rate = $this->GetRate($currency->code))!== false) {
 
                     $curs = new CurrencyCur();
@@ -164,7 +157,6 @@ class CbrfController extends Controller
                     $i++;
 
                 }
-            }
         }
 
         echo "Insert currency_curs: " . $i . PHP_EOL;

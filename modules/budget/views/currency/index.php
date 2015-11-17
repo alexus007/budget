@@ -5,10 +5,10 @@ use yii\helpers\Url;
 use yii\grid\GridView;
 
 /**
-* @var yii\web\View $this
-* @var yii\data\ActiveDataProvider $dataProvider
-* @var app\models\query\CurrencySearch $searchModel
-*/
+ * @var yii\web\View $this
+ * @var yii\data\ActiveDataProvider $dataProvider
+ * @var app\models\query\CurrencySearch $searchModel
+ */
 
 $this->title = Yii::t('app', 'Currencies');
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,8 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="pull-right">
 
-                                                                                                            
-            <?= 
+
+            <?=
             \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id'       => 'giiant-relations',
@@ -39,15 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'encodeLabels' => false,
                         'items'        => [            [
-                'url' => ['budget/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Budget') . '</i>',
-            ],            [
-                'url' => ['budget-item/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Budget Item') . '</i>',
-            ],            [
-                'url' => ['currency-cur/index'],
-                'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Currency Cur') . '</i>',
-            ],]
+                            'url' => ['budget/index'],
+                            'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Budget') . '</i>',
+                        ],            [
+                            'url' => ['budget-item/index'],
+                            'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Budget Item') . '</i>',
+                        ],            [
+                            'url' => ['currency-cur/index'],
+                            'label' => '<i class="glyphicon glyphicon-arrow-right">&nbsp;' . Yii::t('app', 'Currency Cur') . '</i>',
+                        ],]
                     ],
                     'options' => [
                         'class' => 'btn-default'
@@ -57,55 +57,55 @@ $this->params['breadcrumbs'][] = $this->title;
             ?>        </div>
     </div>
 
-    
-        <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2>
-                    <i><?= Yii::t('app', 'Currencies') ?></i>
-                </h2>
-            </div>
+    <?php \yii\widgets\Pjax::begin(['id'=>'pjax-main', 'enableReplaceState'=> false, 'linkSelector'=>'#pjax-main ul.pagination a, th a', 'clientOptions' => ['pjax:success'=>'function(){alert("yo")}']]) ?>
 
-            <div class="panel-body">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2>
+                <i><?= Yii::t('app', 'Currencies') ?></i>
+            </h2>
+        </div>
 
-                <div class="table-responsive">
+        <div class="panel-body">
+
+            <div class="table-responsive">
                 <?= GridView::widget([
-                'layout' => '{summary}{pager}{items}{pager}',
-                'dataProvider' => $dataProvider,
-                'pager'        => [
-                    'class'          => yii\widgets\LinkPager::className(),
-                    'firstPageLabel' => Yii::t('app', 'First'),
-                    'lastPageLabel'  => Yii::t('app', 'Last')                ],
-                'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-                'headerRowOptions' => ['class'=>'x'],
-                'columns' => [
+                    'layout' => '{summary}{pager}{items}{pager}',
+                    'dataProvider' => $dataProvider,
+                    'pager'        => [
+                        'class'          => yii\widgets\LinkPager::className(),
+                        'firstPageLabel' => Yii::t('app', 'First'),
+                        'lastPageLabel'  => Yii::t('app', 'Last')                ],
+                    'filterModel' => $searchModel,
+                    'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+                    'headerRowOptions' => ['class'=>'x'],
+                    'columns' => [
 
                         [
-            'class' => 'yii\grid\ActionColumn',
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
-        ],
-			'name',
-			'code',
-			'chCode',
-			'sign',
-			'active',
-                ],
-            ]); ?>
-                </div>
-
+                            'class' => 'yii\grid\ActionColumn',
+                            'urlCreator' => function($action, $model, $key, $index) {
+                                // using the column name as key, not mapping to 'id' like the standard generator
+                                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                                return Url::toRoute($params);
+                            },
+                            'contentOptions' => ['nowrap'=>'nowrap']
+                        ],
+                        'name',
+                        'code',
+                        'chCode',
+                        'sign',
+                        'active',
+                    ],
+                ]); ?>
             </div>
 
         </div>
 
-        <?php \yii\widgets\Pjax::end() ?>
+    </div>
 
-    
+    <?php \yii\widgets\Pjax::end() ?>
+
+
 </div>

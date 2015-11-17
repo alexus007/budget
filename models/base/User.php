@@ -20,6 +20,7 @@ use Yii;
  *
  * @property \app\models\Budget[] $budgets
  * @property \app\models\BudgetHistory[] $budgetHistories
+ * @property \app\models\BudgetItem[] $budgetItems
  */
 class User extends \yii\db\ActiveRecord
 {
@@ -81,6 +82,14 @@ class User extends \yii\db\ActiveRecord
     public function getBudgetHistories()
     {
         return $this->hasMany(\app\models\BudgetHistory::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBudgetItems()
+    {
+        return $this->hasMany(\app\models\BudgetItem::className(), ['user_id' => 'id']);
     }
 
 

@@ -139,7 +139,7 @@ class User extends BaseUser implements IdentityInterface
     public function beforeValidate()
     {
         if(parent::beforeValidate()) {
-            if($this->isNewRecord) {
+            if($this->getIsNewRecord()) {
                 $this->created_date = date('Y-m-d H:i:s');
                 $this->updated_date = date('Y-m-d H:i:s');
             } else

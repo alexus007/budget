@@ -7,7 +7,6 @@ use app\models\query\BudgetItemSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
-use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 
 /**
@@ -20,22 +19,6 @@ class BudgetItemController extends Controller
      * CSRF validation is enabled only when both this property and [[Request::enableCsrfValidation]] are true.
      */
     public $enableCsrfValidation = false;
-
-	public function behaviors()
-	{
-		return [
-			'access' => [
-				'class' => AccessControl::className(),
-				'rules' => [
-					[
-						'allow' => true,
-						'actions' => [],
-						'roles' => ['@'],
-					],
-				],
-			],
-		];
-	}
 	
 	/**
 	 * Lists all BudgetItem models.

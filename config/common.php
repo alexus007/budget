@@ -8,7 +8,8 @@ $params = ArrayHelper::merge(
 
 return [
     'name'  => 'Семейный бюджет',
-    'language' => 'ru-RU',
+    'language' => 'ru',
+    'timeZone' => 'Asia/Yekaterinburg',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
@@ -30,7 +31,6 @@ return [
             'showScriptName' => false,
             'rules' => [
                 '' => 'budget/budget/index',
-                '<_c:(budget)>/<_a:(create|view|update|delete)>' => 'budget/budget/<_a>',
                 '<_a:error>' => 'budget/budget/<_a>',
                 '<_a:(login|logout|signup|email-confirm|request-password-reset|password-reset)>' => 'user/default/<_a>',
 
@@ -51,12 +51,10 @@ return [
         ],
         'i18n' => [
             'translations' => [
-                'app' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'forceTranslation' => true,
-                ],
-                'menu' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                '*' => [
+                    'class'          => 'yii\i18n\PhpMessageSource',
+                    'basePath'       => '@app/messages',
+                    'sourceLanguage' => 'ru',
                     'forceTranslation' => true,
                 ],
             ],
