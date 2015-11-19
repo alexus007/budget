@@ -7,6 +7,7 @@ use \app\models\base\User as BaseUser;
 use yii\base\NotSupportedException;
 use yii\web\IdentityInterface;
 use yii\helpers\ArrayHelper;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user".
@@ -136,17 +137,20 @@ class User extends BaseUser implements IdentityInterface
         return false;
     }
 
-    public function beforeValidate()
+    public function behaviors()
     {
-        if(parent::beforeValidate()) {
-            if($this->getIsNewRecord()) {
-                $this->created_date = date('Y-m-d H:i:s');
-                $this->updated_date = date('Y-m-d H:i:s');
-            } else
-                $this->updated_date = date('Y-m-d H:i:s');
-            return true;
-        }
-        return false;
+        return [
+
+            // date
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'created_date',
+                'updatedAtAttribute' => 'updated_date',
+                'value' => function($event) {
+                    return date('Y-m-d H:i:s');
+                }
+            ],
+        ];
     }
 
     /**

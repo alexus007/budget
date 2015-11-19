@@ -38,9 +38,6 @@ class BudgetController extends Controller
 	{
 		$searchModel  = new BudgetSearch;
 		$dataProvider = $searchModel->search($_GET);
-		if(count($dataProvider->getModels()) == 0) {
-			Yii::$app->getSession()->setFlash('info', 'Вы еще не создали бюджет');
-		}
 		Tabs::clearLocalStorage();
 
 		Url::remember();

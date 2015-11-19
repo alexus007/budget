@@ -11,6 +11,8 @@ use Yii;
  * @property integer $user_id
  * @property integer $currency_id
  * @property string $title
+ * @property string $costs_limit
+ * @property string $income_limit
  * @property string $created_date
  * @property string $updated_date
  * @property integer $active
@@ -40,6 +42,7 @@ class Budget extends \yii\db\ActiveRecord
         return [
             [['user_id', 'currency_id', 'title', 'created_date', 'updated_date'], 'required'],
             [['user_id', 'currency_id', 'active'], 'integer'],
+            [['costs_limit', 'income_limit'], 'number'],
             [['created_date', 'updated_date'], 'safe'],
             [['title'], 'string', 'max' => 255]
         ];
@@ -55,6 +58,8 @@ class Budget extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'currency_id' => Yii::t('app', 'Currency ID'),
             'title' => Yii::t('app', 'Title'),
+            'costs_limit' => Yii::t('app', 'Costs Limit'),
+            'income_limit' => Yii::t('app', 'Income Limit'),
             'created_date' => Yii::t('app', 'Created Date'),
             'updated_date' => Yii::t('app', 'Updated Date'),
             'active' => Yii::t('app', 'Active'),

@@ -11,7 +11,7 @@ use Yii;
  * @property integer $user_id
  * @property integer $budget_id
  * @property integer $budget_item_id
- * @property double $ammount
+ * @property string $ammount
  * @property string $date
  *
  * @property \app\models\Budget $budget

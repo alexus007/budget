@@ -57,8 +57,8 @@ class m151115_064101_base_migrate extends Migration
             'id' => $this->primaryKey(),
             'currency_id' => $this->integer()->notNull(),
             'nom' => $this->integer()->notNull(),
-            'curs' => $this->float()->notNull(),
-            'rate' => $this->float()->notNull(),
+            'curs' => $this->decimal(9,2)->notNull(),
+            'rate' => $this->decimal(9,2)->notNull(),
             'date' => $this->dateTime()->notNull(),
         ], $tableOptions);
 
@@ -69,6 +69,8 @@ class m151115_064101_base_migrate extends Migration
             'user_id' => $this->integer()->notNull(),
             'currency_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
+            'costs_limit' => $this->decimal(9,2),
+            'income_limit' => $this->decimal(9,2),
             'created_date' => $this->dateTime()->notNull(),
             'updated_date' => $this->dateTime()->notNull(),
             'active' => $this->boolean()->notNull()->defaultValue(true),
@@ -87,18 +89,18 @@ class m151115_064101_base_migrate extends Migration
 
         $this->createTable('{{%budget_item}}', [
             'id' => $this->primaryKey(),
-            'patent_id' => $this->integer()->notNull(),
+            'parent_id' => $this->integer(),
             'user_id' => $this->integer()->notNull(),
             'currency_id' => $this->integer()->notNull(),
             'type_budget_item_id' => $this->integer()->notNull(),
             'name' => $this->string()->notNull(),
-            'ammount' => $this->float()->notNull(),
-            'date' => $this->dateTime()->notNull(),
+            'ammount' => $this->decimal(9,2),
+            'date' => $this->dateTime(),
             'active' => $this->boolean()->notNull()->defaultValue(true),
         ], $tableOptions);
 
         $this->addForeignKey('fk_budget_item_currency', 'budget_item', 'currency_id', 'currency', 'id');
-        $this->addForeignKey('fk_budget_item_patent', 'budget_item', 'patent_id', 'budget_item', 'id');
+        $this->addForeignKey('fk_budget_item_patent', 'budget_item', 'parent_id', 'budget_item', 'id');
         $this->addForeignKey('fk_budget_item_user', 'budget_item', 'user_id', 'user', 'id');
         $this->addForeignKey('fk_budget_item_type_budget_item', 'budget_item', 'type_budget_item_id', 'type_budget_item', 'id');
 
@@ -108,7 +110,7 @@ class m151115_064101_base_migrate extends Migration
             'user_id' => $this->integer()->notNull(),
             'budget_id' => $this->integer()->notNull(),
             'budget_item_id' => $this->integer()->notNull(),
-            'ammount' => $this->float()->notNull(),
+            'ammount' => $this->decimal(9,2)->notNull(),
             'date' => $this->dateTime()->notNull(),
         ], $tableOptions);
 

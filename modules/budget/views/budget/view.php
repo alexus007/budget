@@ -13,7 +13,7 @@ use dmstr\bootstrap\Tabs;
 */
 
 $this->title = 'Budget ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Budgets', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Budgets'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'View');
 ?>

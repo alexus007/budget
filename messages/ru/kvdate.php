@@ -17,10 +17,6 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Login' => '@@Login@@',
-    'Signup' => '@@Sign Up@@',
-    'Budget' => 'Budget',
-    'BudgetItems' => 'Budget Items',
-    'Logout' => 'Logout',
-    'Report' => 'Report',
+    'Clear field' => '',
+    'Select date' => '',
 ];

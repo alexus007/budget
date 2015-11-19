@@ -26,6 +26,7 @@ class HelpPopover extends Widget
             'data-title'=>$this->dataOptions['title'],
             'data-content'=>Html::decode($this->dataOptions['content']),
             'data-toggle'=>$this->dataOptions['toggle'],
+            'data-pjax' => 0,
             'style'=>$this->dataOptions['style'],
         ]);
     }

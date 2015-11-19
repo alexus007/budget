@@ -41,6 +41,8 @@ use \dmstr\bootstrap\Tabs;
                         ['prompt' => Yii::t('app', 'Select')]
                     ); ?>
                     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'costs_limit')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'income_limit')->textInput(['maxlength' => true]) ?>
                 </p>
                 <?php $this->endBlock(); ?>
 
@@ -49,7 +51,7 @@ use \dmstr\bootstrap\Tabs;
                     [
                         'encodeLabels' => false,
                         'items' => [ [
-                            'label'   => 'Budget',
+                            'label'   => Yii::t('app', 'Budget'),
                             'content' => $this->blocks['main'],
                             'active'  => true,
                         ], ]

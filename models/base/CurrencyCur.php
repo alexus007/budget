@@ -10,8 +10,8 @@ use Yii;
  * @property integer $id
  * @property integer $currency_id
  * @property integer $nom
- * @property double $curs
- * @property double $rate
+ * @property string $curs
+ * @property string $rate
  * @property string $date
  *
  * @property \app\models\Currency $currency

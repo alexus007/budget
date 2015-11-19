@@ -2,10 +2,13 @@
 
 namespace app\models\query;
 
+
+use app\components\helpers\DateHelper;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Budget;
+use yii\db\ActiveQuery;
 
 /**
  * BudgetSearch represents the model behind the search form about `app\models\Budget`.
@@ -19,7 +22,7 @@ class BudgetSearch extends Budget
     {
         return [
             [['id', 'user_id', 'currency_id', 'active'], 'integer'],
-            [['title', 'created_date', 'updated_date'], 'safe'],
+            [['title', 'created_date', 'updated_date', 'income_limit', 'costs_limit'], 'safe'],
         ];
     }
 
@@ -32,6 +35,12 @@ class BudgetSearch extends Budget
         return Model::scenarios();
     }
 
+    public function attributes()
+    {
+        // add related fields to searchable attributes
+        return array_merge(parent::attributes(), []);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -41,10 +50,22 @@ class BudgetSearch extends Budget
      */
     public function search($params)
     {
-        $query = Budget::find();
+        $query = self::baseQuery();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+        ]);
+
+        $dataProvider->setSort([
+            'defaultOrder' => ['id' => SORT_DESC],
+            'attributes' => [
+                'id',
+                'title',
+                'currency_id',
+                'costs_limit',
+                'income_limit',
+                'created_date',
+            ]
         ]);
 
         $this->load($params);
@@ -57,14 +78,15 @@ class BudgetSearch extends Budget
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
             'currency_id' => $this->currency_id,
-            'created_date' => $this->created_date,
-            'updated_date' => $this->updated_date,
+            'costs_limit' => $this->costs_limit,
+            'income_limit' => $this->income_limit,
             'active' => $this->active,
         ]);
+        $query->andFilterWhere(
+                ['>=', 'created_date', $this->created_date ? DateHelper::reformat($this->created_date) : null]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', self::tableName() . '.title', $this->title]);
 
         return $dataProvider;
     }

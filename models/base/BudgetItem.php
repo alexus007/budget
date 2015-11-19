@@ -8,18 +8,18 @@ use Yii;
  * This is the base-model class for table "budget_item".
  *
  * @property integer $id
- * @property integer $patent_id
+ * @property integer $parent_id
  * @property integer $user_id
  * @property integer $currency_id
  * @property integer $type_budget_item_id
  * @property string $name
- * @property double $ammount
+ * @property string $ammount
  * @property string $date
  * @property integer $active
  *
  * @property \app\models\BudgetHistory[] $budgetHistories
  * @property \app\models\Currency $currency
- * @property \app\models\BudgetItem $patent
+ * @property \app\models\BudgetItem $parent
  * @property \app\models\BudgetItem[] $budgetItems
  * @property \app\models\TypeBudgetItem $typeBudgetItem
  * @property \app\models\User $user
@@ -43,8 +43,8 @@ class BudgetItem extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['patent_id', 'user_id', 'currency_id', 'type_budget_item_id', 'name', 'ammount', 'date'], 'required'],
-            [['patent_id', 'user_id', 'currency_id', 'type_budget_item_id', 'active'], 'integer'],
+            [['parent_id', 'user_id', 'currency_id', 'type_budget_item_id', 'active'], 'integer'],
+            [['user_id', 'currency_id', 'type_budget_item_id', 'name'], 'required'],
             [['ammount'], 'number'],
             [['date'], 'safe'],
             [['name'], 'string', 'max' => 255]
@@ -58,7 +58,7 @@ class BudgetItem extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'patent_id' => Yii::t('app', 'Patent ID'),
+            'parent_id' => Yii::t('app', 'Parent ID'),
             'user_id' => Yii::t('app', 'User ID'),
             'currency_id' => Yii::t('app', 'Currency ID'),
             'type_budget_item_id' => Yii::t('app', 'Type Budget Item ID'),
@@ -88,9 +88,9 @@ class BudgetItem extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPatent()
+    public function getParent()
     {
-        return $this->hasOne(\app\models\BudgetItem::className(), ['id' => 'patent_id']);
+        return $this->hasOne(\app\models\BudgetItem::className(), ['id' => 'parent_id']);
     }
 
     /**
@@ -98,7 +98,7 @@ class BudgetItem extends \yii\db\ActiveRecord
      */
     public function getBudgetItems()
     {
-        return $this->hasMany(\app\models\BudgetItem::className(), ['patent_id' => 'id']);
+        return $this->hasMany(\app\models\BudgetItem::className(), ['parent_id' => 'id']);
     }
 
     /**
