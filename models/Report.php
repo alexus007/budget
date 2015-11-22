@@ -45,29 +45,44 @@ class Report extends Model
             $query->andWhere(['budget_item.type_budget_item_id'=>$this->type_id]);
 
         $query->andWhere(['>=', 'budget_history.date', $this->date_from ? DateHelper::begin($this->date_from) : null])
-        ->andWhere(['<=', 'budget_history.date', $this->date_to ? DateHelper::end($this->date_to) : null]);
+            ->andWhere(['<=', 'budget_history.date', $this->date_to ? DateHelper::end($this->date_to) : null]);
         $query->orderBy([
             'date' => SORT_ASC
         ]);
-        $result = ['models'=>[], 'TOTAL_SUM' => 0];
+        $result = ['models'=>[], 'TOTAL_SUM' => ['cost'=>0, 'income'=>0]];
         $models = $query->all();
         if($models) {
             $result['models'] = $models;
-            $sum = 0;
+            $sumCost = 0;
+            $sumIncome = 0;
             foreach($models as $model) {
-                // rub
-                if($this->currency_id == 1 && ($model->currency_id == 1)) {
-                    $sum += $model->ammount;
-                } elseif($this->currency_id == 1 && ($model->currency_id != 1)) {
-                    $sum += CurrencyConverter::currencyAsRub($model->currency_id, $model->ammount);
-                }elseif($this->currency_id != 1 && ($model->currency_id == 1)) {
-                    $sum += CurrencyConverter::rubAsCurrency($this->currency_id,$model->ammount);
-                } elseif($this->currency_id != 1 && ($model->currency_id != 1)) {
-                    $sum += $model->ammount;
+
+                if($model->budgetItem->type_budget_item_id == 2) {
+                    // rub
+                    if($this->currency_id == 1 && ($model->currency_id == 1)) {
+                        $sumCost += $model->ammount;
+                    } elseif($this->currency_id == 1 && ($model->currency_id != 1)) {
+                        $sumCost += CurrencyConverter::currencyAsRub($model->currency_id, $model->ammount);
+                    }elseif($this->currency_id != 1 && ($model->currency_id == 1)) {
+                        $sumCost += CurrencyConverter::rubAsCurrency($this->currency_id,$model->ammount);
+                    } elseif($this->currency_id != 1 && ($model->currency_id != 1)) {
+                        $sumCost += $model->ammount;
+                    }
+                } else {
+                    // rub
+                    if($this->currency_id == 1 && ($model->currency_id == 1)) {
+                        $sumIncome += $model->ammount;
+                    } elseif($this->currency_id == 1 && ($model->currency_id != 1)) {
+                        $sumIncome += CurrencyConverter::currencyAsRub($model->currency_id, $model->ammount);
+                    }elseif($this->currency_id != 1 && ($model->currency_id == 1)) {
+                        $sumIncome += CurrencyConverter::rubAsCurrency($this->currency_id,$model->ammount);
+                    } elseif($this->currency_id != 1 && ($model->currency_id != 1)) {
+                        $sumIncome += $model->ammount;
+                    }
                 }
             }
 
-            $result['TOTAL_SUM'] = $sum;
+            $result['TOTAL_SUM'] = [ 'cost'=>$sumCost, 'income'=>$sumIncome];
 
         }
         return $result;
