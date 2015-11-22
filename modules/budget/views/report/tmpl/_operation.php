@@ -26,16 +26,19 @@ use app\components\helpers\CurrencyConverter;
             </div>
             <div class="col-sm-3">
                 <?php
+                if($rel = $historyModel->budgetItem) {
+                    $class = ($rel->type_budget_item_id==1) ? 'text-success' : 'text-danger';
+                }
                     if($model->currency_id == 1){
                         if($historyModel->currency_id == 1)
-                            echo $historyModel->ammount;
+                            echo '<span class="'.$class.'">' . $historyModel->ammount . '</span>';
                         else
-                            echo CurrencyConverter::currencyAsRub($historyModel->currency_id, $historyModel->ammount);
+                            echo '<span class="'.$class.'">' . CurrencyConverter::currencyAsRub($historyModel->currency_id, $historyModel->ammount) . '</span>';
                     }else{
                         if($historyModel->currency_id != 1)
-                            echo $historyModel->ammount;
+                            echo '<span class="'.$class.'">' . $historyModel->ammount . '</span>';
                         else
-                            echo number_format(CurrencyConverter::rubAsCurrency($model->currency_id, $historyModel->ammount),2);
+                            echo '<span class="'.$class.'">' . number_format(CurrencyConverter::rubAsCurrency($model->currency_id, $historyModel->ammount),2) . '</span>';
                     }
                 ?>
                 <?=\app\models\Currency::getSign($model->currency_id);?>
