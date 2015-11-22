@@ -15,6 +15,10 @@ use app\components\helpers\CurrentUser;
 
 /**
  * This is the model class for table "budget_item".
+ *
+ * @method \app\components\behaviors\Tree getChildsArray
+ * @method \app\components\behaviors\Tree getTabList
+ * @method  \app\components\behaviors\Tree  getTreeAssocList
  */
 class BudgetItem extends BaseBudgetItem
 {
@@ -22,7 +26,6 @@ class BudgetItem extends BaseBudgetItem
     const TYPE_INCOME = 1;
     const TYPE_COST = 2;
 
-    private $url = null;
 
     public function rules()
     {
@@ -74,7 +77,7 @@ class BudgetItem extends BaseBudgetItem
                 'class' => Tree::className(),
                 'titleAttribute' => 'name',
                 'aliasAttribute' => 'id',
-                'defaultCriteria' => BudgetItem::baseQuery(),
+                'defaultCriteria' => self::baseQuery(),
             ]
         ];
     }
@@ -121,10 +124,22 @@ class BudgetItem extends BaseBudgetItem
         return ArrayHelper::getValue(self::getTypes(), $this->type_budget_item_id);
     }
 
-    public function getUrl()
+
+    public static function getArrayBudgetItem($type)
     {
-        if ($this->url === null)
-            $this->url = Yii::$app->request->baseUrl . '/' . $this->getPath();
-        return $this->url;
+        if(!$type && ($type !== self::TYPE_COST || $type !== self::TYPE_INCOME))
+            return false;
+        $query = self::baseQuery();
+        $query->where(['type_budget_item_id'=>$type, 'parent_id' => null]);
+        $query->orderBy(['id'=>SORT_ASC]);
+        $parents = $query->all();
+        $result = [];
+        if($parents) {
+            foreach($parents as $parent){
+                $result = ArrayHelper::merge($result, (new BudgetItem())->getTreeAssocList($parent->id));
+            }
+            return $result;
+        } else
+            return $result;
     }
 }

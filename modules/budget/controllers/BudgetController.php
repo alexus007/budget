@@ -3,6 +3,9 @@
 namespace app\modules\budget\controllers;
 
 use app\models\Budget;
+use app\models\BudgetHistory;
+use app\models\BudgetItem;
+use app\models\query\BudgetHistorySearch;
 use app\models\query\BudgetSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
@@ -57,12 +60,30 @@ class BudgetController extends Controller
 	 */
 	public function actionView($id)
 	{
+
+		$modelHistory = new BudgetHistory;
+		$historySearch = new BudgetHistorySearch;
+		$providerIncome = $historySearch->searchItems(BudgetItem::TYPE_INCOME, Yii::$app->request->queryParams);
+		$providerCost = $historySearch->searchItems(BudgetItem::TYPE_COST, Yii::$app->request->queryParams);
 		\Yii::$app->session['__crudReturnUrl'] = Url::previous();
 		Url::remember();
 		Tabs::rememberActiveState();
+		try {
+			if ($modelHistory->load($_POST) && $modelHistory->save()) {
+				return $this->redirect(Url::previous());
+			} elseif (!\Yii::$app->request->isPost) {
+				$modelHistory->load($_GET);
+			}
+		} catch (\Exception $e) {
+			$msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+			$modelHistory->addError('_exception', $msg);
+		}
 
 		return $this->render('view', [
 			'model' => $this->findModel($id),
+			'modelHistory' => $modelHistory,
+			'providerIncome' => $providerIncome,
+			'providerCost' => $providerCost,
 		]);
 	}
 
@@ -136,6 +157,23 @@ class BudgetController extends Controller
 		} else {
 			return $this->redirect(['index']);
 		}
+	}
+
+	public function actionDeleteHistory($id)
+	{
+        if (($model = BudgetHistory::findOne($id)) !== null) {
+            try {
+                $model->delete();
+                return $this->redirect(Url::previous());
+            } catch (\Exception $e) {
+                $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
+                \Yii::$app->getSession()->setFlash('error', $msg);
+                return $this->redirect(Url::previous());
+            }
+        } else {
+            throw new HttpException(404, 'The requested page does not exist.');
+        }
+
 	}
 
 	/**

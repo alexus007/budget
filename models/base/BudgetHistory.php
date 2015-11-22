@@ -11,11 +11,13 @@ use Yii;
  * @property integer $user_id
  * @property integer $budget_id
  * @property integer $budget_item_id
+ * @property integer $currency_id
  * @property string $ammount
  * @property string $date
  *
  * @property \app\models\Budget $budget
  * @property \app\models\BudgetItem $budgetItem
+ * @property \app\models\Currency $currency
  * @property \app\models\User $user
  */
 class BudgetHistory extends \yii\db\ActiveRecord
@@ -37,8 +39,8 @@ class BudgetHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'budget_id', 'budget_item_id', 'ammount', 'date'], 'required'],
-            [['user_id', 'budget_id', 'budget_item_id'], 'integer'],
+            [['user_id', 'budget_id', 'budget_item_id', 'currency_id', 'ammount', 'date'], 'required'],
+            [['user_id', 'budget_id', 'budget_item_id', 'currency_id'], 'integer'],
             [['ammount'], 'number'],
             [['date'], 'safe']
         ];
@@ -54,6 +56,7 @@ class BudgetHistory extends \yii\db\ActiveRecord
             'user_id' => Yii::t('app', 'User ID'),
             'budget_id' => Yii::t('app', 'Budget ID'),
             'budget_item_id' => Yii::t('app', 'Budget Item ID'),
+            'currency_id' => Yii::t('app', 'Currency ID'),
             'ammount' => Yii::t('app', 'Ammount'),
             'date' => Yii::t('app', 'Date'),
         ];
@@ -73,6 +76,14 @@ class BudgetHistory extends \yii\db\ActiveRecord
     public function getBudgetItem()
     {
         return $this->hasOne(\app\models\BudgetItem::className(), ['id' => 'budget_item_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCurrency()
+    {
+        return $this->hasOne(\app\models\Currency::className(), ['id' => 'currency_id']);
     }
 
     /**

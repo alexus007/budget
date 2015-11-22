@@ -22,6 +22,9 @@ class m151115_064101_base_migrate extends Migration
     // Use safeUp/safeDown to run migration code within a transaction
     public function safeUp()
     {
+
+        $db = Yii::$app->db;
+
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
@@ -57,8 +60,8 @@ class m151115_064101_base_migrate extends Migration
             'id' => $this->primaryKey(),
             'currency_id' => $this->integer()->notNull(),
             'nom' => $this->integer()->notNull(),
-            'curs' => $this->decimal(9,2)->notNull(),
-            'rate' => $this->decimal(9,2)->notNull(),
+            'curs' => $this->float()->notNull(),
+            'rate' => $this->float()->notNull(),
             'date' => $this->dateTime()->notNull(),
         ], $tableOptions);
 
@@ -67,7 +70,6 @@ class m151115_064101_base_migrate extends Migration
         $this->createTable('{{%budget}}', [
             'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'currency_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
             'costs_limit' => $this->decimal(9,2),
             'income_limit' => $this->decimal(9,2),
@@ -77,7 +79,6 @@ class m151115_064101_base_migrate extends Migration
         ], $tableOptions);
 
         $this->addForeignKey('fk_budget_user', 'budget', 'user_id', 'user', 'id');
-        $this->addForeignKey('fk_budget_currency', 'budget', 'currency_id', 'currency', 'id');
 
         $this->createTable('{{%type_budget_item}}', [
             'id' => $this->primaryKey(),
@@ -110,6 +111,7 @@ class m151115_064101_base_migrate extends Migration
             'user_id' => $this->integer()->notNull(),
             'budget_id' => $this->integer()->notNull(),
             'budget_item_id' => $this->integer()->notNull(),
+            'currency_id' => $this->integer()->notNull(),
             'ammount' => $this->decimal(9,2)->notNull(),
             'date' => $this->dateTime()->notNull(),
         ], $tableOptions);
@@ -117,6 +119,7 @@ class m151115_064101_base_migrate extends Migration
         $this->addForeignKey('fk_budget_history_user', 'budget_history', 'user_id', 'user', 'id');
         $this->addForeignKey('fk_budget_history_budget', 'budget_history', 'budget_id', 'budget', 'id');
         $this->addForeignKey('fk_budget_history_budget_item', 'budget_history', 'budget_item_id', 'budget_item', 'id');
+        $this->addForeignKey('fk_budget_history_currency', 'budget_history', 'currency_id', 'currency', 'id');
 
     }
 
@@ -128,12 +131,12 @@ class m151115_064101_base_migrate extends Migration
         $this->dropIndex('idx_user_email', '{{%user}}');
         $this->dropIndex('idx_user_status', '{{%user}}');
         $this->dropForeignKey('fk_budget_user', '{{%budget}}');
-        $this->dropForeignKey('fk_budget_currency', '{{%budget}}');
         $this->dropForeignKey('fk_currency_curs_currency', '{{%currency_curs}}');
         $this->dropForeignKey('fk_budget_item_currency', '{{%budget_item}}');
         $this->dropForeignKey('fk_budget_item_patent', '{{%budget_item}}');
         $this->dropForeignKey('fk_budget_item_user', '{{%budget_item}}');
         $this->dropForeignKey('fk_budget_item_type_budget_item', '{{%budget_item}}');
+        $this->dropForeignKey('fk_budget_history_currency', '{{%budget_history}}');
         $this->dropForeignKey('fk_budget_history_user', '{{%budget_history}}');
         $this->dropForeignKey('fk_budget_history_budget', '{{%budget_history}}');
         $this->dropForeignKey('fk_budget_history_budget_item', '{{%budget_history}}');

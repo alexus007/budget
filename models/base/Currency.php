@@ -14,7 +14,7 @@ use Yii;
  * @property string $sign
  * @property integer $active
  *
- * @property \app\models\Budget[] $budgets
+ * @property \app\models\BudgetHistory[] $budgetHistories
  * @property \app\models\BudgetItem[] $budgetItems
  * @property \app\models\CurrencyCur[] $currencyCurs
  */
@@ -61,9 +61,9 @@ class Currency extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBudgets()
+    public function getBudgetHistories()
     {
-        return $this->hasMany(\app\models\Budget::className(), ['currency_id' => 'id']);
+        return $this->hasMany(\app\models\BudgetHistory::className(), ['currency_id' => 'id']);
     }
 
     /**

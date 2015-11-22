@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use \app\models\base\Budget as BaseBudget;
+use \app\models\BudgetHistory;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use app\components\helpers\CurrentUser;
@@ -18,8 +19,8 @@ class Budget extends BaseBudget
     public function rules()
     {
         return [
-            [['currency_id', 'title'], 'required'],
-            [['user_id', 'currency_id', 'active'], 'integer'],
+            [['title'], 'required'],
+            [['user_id', 'active'], 'integer'],
             [['costs_limit', 'income_limit'], 'number'],
             [['created_date', 'updated_date'], 'safe'],
             [['title'], 'string', 'max' => 255]
@@ -31,7 +32,6 @@ class Budget extends BaseBudget
         return [
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'currency_id' => Yii::t('app', 'Currency ID'),
             'title' => Yii::t('app', 'Title'),
             'costs_limit' => Yii::t('app', 'Costs Limit'),
             'income_limit' => Yii::t('app', 'Income Limit'),
@@ -70,5 +70,15 @@ class Budget extends BaseBudget
         $query->andWhere(['user_id'=>CurrentUser::getId()]);
         $query->andWhere(['active'=>true]);
         return $query;
+    }
+
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            BudgetHistory::deleteAll(['budget_id' => $this->id]);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -98,7 +98,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'View');
                     'id' => 'relation-tabs',
                     'encodeLabels' => false,
                     'items' => [ [
-                        'label'   => '<b class=""># '.$model->id.'</b>',
+                        'label'   => '<b class=""># '.$model->name.'</b>',
                         'content' => $this->blocks['app\models\BudgetItem'],
                         'active'  => true,
                     ] ]

@@ -21,7 +21,7 @@ class BudgetSearch extends Budget
     public function rules()
     {
         return [
-            [['id', 'user_id', 'currency_id', 'active'], 'integer'],
+            [['id', 'user_id', 'active'], 'integer'],
             [['title', 'created_date', 'updated_date', 'income_limit', 'costs_limit'], 'safe'],
         ];
     }
@@ -61,7 +61,6 @@ class BudgetSearch extends Budget
             'attributes' => [
                 'id',
                 'title',
-                'currency_id',
                 'costs_limit',
                 'income_limit',
                 'created_date',
@@ -78,7 +77,6 @@ class BudgetSearch extends Budget
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'currency_id' => $this->currency_id,
             'costs_limit' => $this->costs_limit,
             'income_limit' => $this->income_limit,
             'active' => $this->active,

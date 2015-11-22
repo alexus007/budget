@@ -12,9 +12,32 @@ use yii\helpers\ArrayHelper;
 class Currency extends BaseCurrency
 {
 
-    public static function getActiveCurrency()
+
+    const CURRENCY_USD = 11;
+
+    public static function baseQuery()
     {
+        $query = self::find();
+        $query->andWhere(['active'=>true]);
+        return $query;
+    }
+
+    public static function getActiveCurrency($chCode = false)
+    {
+        $attr = 'name';
         $query = Currency::find()->andWhere(['active'=>true])->all();
-        return ArrayHelper::map($query, 'id', 'name');
+        if($chCode)
+            $attr = 'chCode';
+        return ArrayHelper::map($query, 'id', $attr);
+    }
+
+    public static function getSign($currency_id)
+    {
+        if(!$currency_id)
+            return;
+        $query = self::baseQuery();
+        $query->select('sign');
+        $query->where(['id'=>$currency_id]);
+        return ArrayHelper::getValue($query->one(),'sign');
     }
 }
