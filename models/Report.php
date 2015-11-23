@@ -43,6 +43,7 @@ class Report extends Model
         ]);
         if($this->type_id && ($this->type_id != 0))
             $query->andWhere(['budget_item.type_budget_item_id'=>$this->type_id]);
+            $query->andWhere(['budget_history.budget_id'=>$this->budget_id]);
 
         $query->andWhere(['>=', 'budget_history.date', $this->date_from ? DateHelper::begin($this->date_from) : null])
             ->andWhere(['<=', 'budget_history.date', $this->date_to ? DateHelper::end($this->date_to) : null]);

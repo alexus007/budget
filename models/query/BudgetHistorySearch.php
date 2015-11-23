@@ -69,13 +69,13 @@ class BudgetHistorySearch extends BudgetHistory
         return $dataProvider;
     }
 
-    public function searchItems($type, $params)
+    public function searchItems($budget_id, $type, $params)
     {
         $query = BudgetHistory::baseQuery();
         $query->joinWith([
             'budgetItem'
         ]);
-
+        $query->andWhere(['budget_history.budget_id'=>$budget_id]);
         $query->andWhere(['budget_item.type_budget_item_id'=>$type]);
         $query->orderBy([
             'date' => SORT_ASC

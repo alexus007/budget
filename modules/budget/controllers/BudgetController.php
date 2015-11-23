@@ -63,8 +63,8 @@ class BudgetController extends Controller
 
 		$modelHistory = new BudgetHistory;
 		$historySearch = new BudgetHistorySearch;
-		$providerIncome = $historySearch->searchItems(BudgetItem::TYPE_INCOME, Yii::$app->request->queryParams);
-		$providerCost = $historySearch->searchItems(BudgetItem::TYPE_COST, Yii::$app->request->queryParams);
+		$providerIncome = $historySearch->searchItems($id, BudgetItem::TYPE_INCOME, Yii::$app->request->queryParams);
+		$providerCost = $historySearch->searchItems($id, BudgetItem::TYPE_COST, Yii::$app->request->queryParams);
 		\Yii::$app->session['__crudReturnUrl'] = Url::previous();
 		Url::remember();
 		Tabs::rememberActiveState();
